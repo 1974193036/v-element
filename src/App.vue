@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import Button from './components/Button/Button.vue'
-import type {ButtonInstance} from '@/components/Button/types'
+import type { ButtonInstance } from '@/components/Button/types'
 
 const buttonRef = ref<ButtonInstance | null>(null)
 
@@ -12,13 +12,56 @@ onMounted(() => {
 
 <template>
   <main>
-    <Button ref="buttonRef" type="primary" plain>
+    <Button ref="buttonRef">
       Test Button
     </Button>
+    <Button plain>
+      Plain Button
+    </Button>
+    <Button round>
+      Round Button
+    </Button>
+    <Button circle>
+      CB
+    </Button>
+    <Button disabled>
+      Disabled Button
+    </Button><br><br>
+    <Button type="primary">
+      Primary
+    </Button>
+    <Button type="success">
+      Success
+    </Button>
+    <Button type="info">
+      Info
+    </Button>
+    <Button type="warning">
+      Warning
+    </Button>
+    <Button type="danger">
+      Danger
+    </Button><br><br>
+    <Button type="primary" plain>
+      Primary
+    </Button>
+    <Button type="success" plain>
+      Success
+    </Button>
+    <Button type="info" plain>
+      Info
+    </Button>
+    <Button type="warning" plain>
+      Warning
+    </Button>
+    <Button type="danger" plain>
+      Danger
+    </Button><br><br>
+    <Button size="large">
+      Large
+    </Button>
+    <Button size="small">
+      Small
+    </Button><br><br>
   </main>
-
-  <a href="#">link</a>
-  <h1>h1</h1>
-  <h2>h2</h2>
-  <h3>h3</h3>
 </template>

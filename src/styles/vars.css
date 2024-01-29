@@ -2,30 +2,22 @@
   /* colors */
   --vk-color-white: #ffffff;
   --vk-color-black: #000000;
-  --vk-color-primary: #409eff;
-  --vk-color-success: #67c23a;
-  --vk-color-warning: #e6a23c;
-  --vk-color-danger: #f56c6c;
-  --vk-color-info: #909399;
-
-  --vk-color-primary-light-3: #79bbff;
-  --vk-color-primary-dark-2: #337ecc;
-  /* --colors: (
+  --colors: (
     primary: #409eff,
     success: #67c23a,
     warning: #e6a23c,
     danger: #f56c6c,
     info: #909399
-  ); */
+  );
 
-  /* @each $val, $color in var(--colors) {
+   @each $val, $color in var(--colors) {
     --vk-color-$(val): $(color);
     @for $i from 3 to 9 by 2 {
       --vk-color-$(val)-light-$(i): mix(#fff, $(color), .$(i))
     }
     --vk-color-$(val)-light-8: mix(#fff, $(color), .8);
     --vk-color-$(val)-dark-2: mix(#000, $(color), .2);
-  } */
+  }
 
   --vk-bg-color: #ffffff;
   --vk-bg-color-page: #f2f3f5;
