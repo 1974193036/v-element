@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import Button from './components/Button/Button.vue'
+import Collapse from './components/Collapse/Collapse.vue'
+import CollapseItem from './components/Collapse/CollapseItem.vue'
 import type { ButtonInstance } from '@/components/Button/types'
 
 const buttonRef = ref<ButtonInstance | null>(null)
@@ -8,6 +10,8 @@ const buttonRef = ref<ButtonInstance | null>(null)
 onMounted(() => {
   console.log(buttonRef.value?.ref)
 })
+
+const openedValue = ref(['a'])
 </script>
 
 <template>
@@ -63,5 +67,19 @@ onMounted(() => {
     <Button size="small">
       Small
     </Button><br><br>
+
+    <Collapse v-model="openedValue">
+      <CollapseItem name="a" title="标题A">
+        <h1>headline title</h1>
+        <div> this is content a aaa </div>
+      </CollapseItem>
+      <CollapseItem name="b" title="标题B">
+        <div> this is bbbbb test </div>
+      </CollapseItem>
+      <CollapseItem name="c" title="标题C" disabled>
+        <div> this is cccc test </div>
+      </CollapseItem>
+    </Collapse>
+    {{ openedValue }}
   </main>
 </template>
