@@ -3,15 +3,22 @@ import { onMounted, ref } from 'vue'
 import Button from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import CollapseItem from './components/Collapse/CollapseItem.vue'
+import Icon from './components/Icon/Icon.vue'
 import type { ButtonInstance } from '@/components/Button/types'
 
 const buttonRef = ref<ButtonInstance | null>(null)
 
+const openedValue = ref(['a'])
+
+const size = ref<any>('3x')
+
 onMounted(() => {
   console.log(buttonRef.value?.ref)
+  setTimeout(() => {
+    // openedValue.value = ['a', 'b']
+    size.value = '6x'
+  }, 2000)
 })
-
-const openedValue = ref(['a'])
 </script>
 
 <template>
@@ -80,6 +87,8 @@ const openedValue = ref(['a'])
         <div> this is cccc test </div>
       </CollapseItem>
     </Collapse>
-    {{ openedValue }}
+    {{ openedValue }}<br><br>
+
+    <Icon icon="user-secret" :size="size" type="danger" color="#444312" />
   </main>
 </template>
