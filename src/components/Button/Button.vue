@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import Icon from '../Icon/Icon.vue'
 import type { ButtonProps } from './types'
 
 withDefaults(defineProps<ButtonProps>(), {
-  nativeType: 'button'
+  nativeType: 'button',
 })
 
 defineOptions({
@@ -13,7 +14,7 @@ defineOptions({
 const _ref = ref<HTMLButtonElement>()
 
 defineExpose({
-  ref: _ref
+  ref: _ref,
 })
 </script>
 
@@ -28,11 +29,14 @@ defineExpose({
       'is-round': round,
       'is-circle': circle,
       'is-disabled': disabled,
+      'is-loading': loading,
     }"
     :disabled="disabled || loading"
     :autofocus="autofocus"
     :type="nativeType"
   >
+    <Icon v-if="loading" icon="spinner" spin />
+    <Icon v-if="icon" :icon="icon" />
     <span><slot /></span>
   </button>
 </template>

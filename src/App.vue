@@ -12,11 +12,14 @@ const openedValue = ref(['a'])
 
 const size = ref<any>('3x')
 
+const loading = ref(true)
+
 onMounted(() => {
   console.log(buttonRef.value?.ref)
   setTimeout(() => {
     // openedValue.value = ['a', 'b']
     size.value = '6x'
+    loading.value = true
   }, 2000)
 })
 </script>
@@ -73,6 +76,12 @@ onMounted(() => {
     </Button>
     <Button size="small">
       Small
+    </Button><br><br>
+    <Button size="large" :loading="loading">
+      Loading
+    </Button>
+    <Button size="small" icon="arrow-up">
+      Icon
     </Button><br><br>
 
     <Collapse v-model="openedValue">

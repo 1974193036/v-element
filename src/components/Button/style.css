@@ -79,6 +79,9 @@
     background-color: var(--vk-button-disabled-bg-color);
     border-color: var(--vk-button-disabled-border-color);
   }
+  [class*=vk-icon] + span {
+    margin-left: 6px;
+  }
 }
 
 @each $val in primary,success,warning,info,danger {

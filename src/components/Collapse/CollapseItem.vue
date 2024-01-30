@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
+import Icon from '../Icon/Icon.vue'
 import type { CollapseItemProps } from './types'
 import { collapseContextKey } from './types'
 
@@ -30,7 +31,7 @@ const transitionEvents: Record<string, (el: HTMLElement) => void> = {
     el.style.height = ''
     el.style.overflow = ''
   },
-  beforeLeave(el) { 
+  beforeLeave(el) {
     el.style.height = `${el.scrollHeight}px`
     el.style.overflow = 'hidden'
   },
@@ -40,7 +41,7 @@ const transitionEvents: Record<string, (el: HTMLElement) => void> = {
   afterLeave(el) {
     el.style.height = ''
     el.style.overflow = ''
-  }
+  },
 }
 </script>
 
@@ -63,6 +64,7 @@ const transitionEvents: Record<string, (el: HTMLElement) => void> = {
       <slot name="title">
         {{ title }}
       </slot>
+      <Icon icon="angle-right" class="header-angle" />
     </div>
 
     <Transition name="slide" v-on="transitionEvents">
