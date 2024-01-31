@@ -1,4 +1,7 @@
 <script setup lang="ts">
+
+// 图标库地址：https://fontawesome.com/search
+
 import { computed } from 'vue'
 import { omit } from 'lodash-es'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
