@@ -11,7 +11,8 @@ describe('Tooltip.vue', () => {
   // vitest钩子函数
   // beforeEach: 在每个用例开始之前都会做处理
   beforeEach(() => {
-    vi.useFakeTimers()
+    // 注意定时器的影响
+    vi.useFakeTimers() // 设定一个假的timer
   })
   test('basic tooltip', async () => {
     const wrapper = mount(() =>
@@ -31,7 +32,7 @@ describe('Tooltip.vue', () => {
     console.log('before', wrapper.html())
     // 测试点击行为
     triggerArea.trigger('click')
-    await vi.runAllTimers() // 把对应的延时走完
+    await vi.runAllTimers() // 把对应的定时器走完
     expect(wrapper.find('.vk-tooltip__popper').exists()).toBeTruthy()
     expect(wrapper.get('.vk-tooltip__popper').text()).toBe('hello tooltip')
     expect(onVisibleChange).toHaveBeenCalledWith(true) // 事件被调用，且参数是true
