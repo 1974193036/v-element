@@ -4,9 +4,12 @@ import Button from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import CollapseItem from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
+import Tooltip from './components/Tooltip/Tooltip.vue'
 import type { ButtonInstance } from '@/components/Button/types'
+import type { TooltipInstance } from '@/components/Tooltip/types'
 
 const buttonRef = ref<ButtonInstance | null>(null)
+const tootipRef = ref<TooltipInstance | null>(null)
 
 const openedValue = ref(['a'])
 
@@ -15,24 +18,33 @@ const size = ref<any>('3x')
 const loading = ref(true)
 
 onMounted(() => {
-  console.log(buttonRef.value?.ref)
+  // console.log(buttonRef.value?.ref)
   setTimeout(() => {
     // openedValue.value = ['a', 'b']
     size.value = '6x'
     loading.value = true
   }, 2000)
 })
+
+const open = () => {
+  // tootipRef.value?.show()
+}
+const close = () => {
+  // tootipRef.value?.hide()
+}
 </script>
 
 <template>
-  <main>
-    <Button ref="buttonRef">
-      Test Button
-    </Button>
-    <Button plain>
+  <main style="margin-left: 100px">
+    <Tooltip ref="tootipRef" content="测试" placement="right" style="margin-right: 20px;margin-top: 50px">
+      <Button ref="buttonRef">
+        Test Button
+      </Button>
+    </Tooltip>
+    <Button plain @click="open">
       Plain Button
     </Button>
-    <Button round>
+    <Button round @click="close">
       Round Button
     </Button>
     <Button circle>
