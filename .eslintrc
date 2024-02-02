@@ -4,6 +4,7 @@
     "no-console":"off",
     "@typescript-eslint/prefer-ts-expect-error": "off",
     "@typescript-eslint/ban-ts-comment": "off",
-    "vue/custom-event-name-casing": "off"
+    "vue/custom-event-name-casing": "off",
+    "vue/attribute-hyphenation": "off"
   }
 }

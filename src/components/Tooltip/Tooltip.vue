@@ -8,7 +8,7 @@ import type { TooltipEmits, TooltipInstance, TooltipProps } from './types'
 
 const props = withDefaults(defineProps<TooltipProps>(), {
   placement: 'bottom',
-  trigger: 'click',
+  trigger: 'hover',
   transition: 'fade',
   openDelay: 0,
   closeDelay: 0,

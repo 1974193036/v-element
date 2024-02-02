@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { h, onMounted, ref } from 'vue'
 import Button from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import CollapseItem from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Tooltip from './components/Tooltip/Tooltip.vue'
+import Dropdown from './components/Dropdown/Dropdown.vue'
+import type { MenuOption } from './components/Dropdown/types'
 import type { ButtonInstance } from '@/components/Button/types'
 import type { TooltipInstance } from '@/components/Tooltip/types'
 
@@ -32,9 +34,32 @@ const open = () => {
 const close = () => {
   // tootipRef.value?.hide()
 }
+
+const options: MenuOption[] = [
+  { key: 1, label: h('b', 'this is bold') },
+  { key: 2, label: 'item2', disabled: true },
+  { key: 3, label: 'item3', divided: true },
+  { key: 4, label: 'item4' },
+]
+
+const inlineConsole = (...args: any) => {
+  console.log(...args)
+}
 </script>
 
 <template>
+  <header>
+    <Dropdown
+      placement="bottom"
+      trigger="click"
+      :menu-options="options"
+      @visible-change="e => inlineConsole('visible change', e)"
+      @select="e => inlineConsole('select', e)"
+    >
+      <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125">
+    </Dropdown>
+  </header>
+
   <main style="margin-left: 100px">
     <Tooltip ref="tootipRef" content="测试" placement="right" style="margin-right: 20px;margin-top: 50px">
       <Button ref="buttonRef">
