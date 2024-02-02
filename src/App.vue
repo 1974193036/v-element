@@ -6,7 +6,9 @@ import CollapseItem from './components/Collapse/CollapseItem.vue'
 import Icon from './components/Icon/Icon.vue'
 import Tooltip from './components/Tooltip/Tooltip.vue'
 import Dropdown from './components/Dropdown/Dropdown.vue'
+// import Message from './components/Message/Message.vue'
 import type { MenuOption } from './components/Dropdown/types'
+import { createMessage } from './components/Message/method'
 import type { ButtonInstance } from '@/components/Button/types'
 import type { TooltipInstance } from '@/components/Tooltip/types'
 
@@ -30,9 +32,11 @@ onMounted(() => {
 
 const open = () => {
   // tootipRef.value?.show()
+  createMessage({ message: 'hello world', duration: 0, showClose: true, type: 'success' })
 }
 const close = () => {
   // tootipRef.value?.hide()
+  // closeAll()
 }
 
 const options: MenuOption[] = [
@@ -48,6 +52,8 @@ const inlineConsole = (...args: any) => {
 </script>
 
 <template>
+  <!-- <Message message="hello" /> -->
+
   <header>
     <Dropdown
       placement="bottom"
