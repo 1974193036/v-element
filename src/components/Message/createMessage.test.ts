@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { nextTick } from 'vue'
 import { closeAll, createMessage } from './method'
 
+// 借鉴了elementplus的方法，rAF可以等待transition动画结束后执行
 export const rAF = async () => {
   return new Promise((resolve) => {
     requestAnimationFrame(() => {
