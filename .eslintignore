@@ -5,4 +5,5 @@ node-modules
 postcss.config.cjs
 .output
 .nitro
+docs
 
