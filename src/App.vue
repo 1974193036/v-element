@@ -7,6 +7,8 @@ import Icon from './components/Icon/Icon.vue'
 import Tooltip from './components/Tooltip/Tooltip.vue'
 import Dropdown from './components/Dropdown/Dropdown.vue'
 // import Message from './components/Message/Message.vue'
+import Input from './components/Input/Input.vue'
+import Switch from './components/Switch/Switch.vue'
 import type { MenuOption } from './components/Dropdown/types'
 import { createMessage } from './components/Message/method'
 import type { ButtonInstance } from '@/components/Button/types'
@@ -49,10 +51,34 @@ const options: MenuOption[] = [
 const inlineConsole = (...args: any) => {
   console.log(...args)
 }
+
+const inputValue = ref('123')
+
+const switchValue = ref(false)
 </script>
 
 <template>
   <!-- <Message message="hello" /> -->
+
+  <Input v-model="inputValue" a="1" b="2" placeholder="请输入" clearable />
+  <Input v-model="inputValue" show-password placeholder="请输入" />
+  <Input v-model="inputValue">
+    <template #prepend>
+      prepend
+    </template>
+    <template #prefix>
+      prefix
+    </template>
+    <template #suffix>
+      suffix
+    </template>
+    <template #append>
+      append
+    </template>
+  </Input>
+  <Input v-model="inputValue" type="textarea"/>
+
+  <Switch v-model="switchValue" activeText="是" inactiveText="否" /> {{ switchValue }}
 
   <header>
     <Dropdown
