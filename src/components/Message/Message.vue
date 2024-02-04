@@ -6,6 +6,10 @@ import useEventListener from '../../hooks/useEventListener'
 import type { MessageProps } from './types'
 import { getLastBottomOffset } from './method'
 
+defineOptions({
+  name: 'VkMessage',
+})
+
 const props = withDefaults(defineProps<MessageProps>(), {
   type: 'info',
   duration: 3000,

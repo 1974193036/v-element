@@ -8,7 +8,7 @@ withDefaults(defineProps<ButtonProps>(), {
 })
 
 defineOptions({
-  name: 'VKButton',
+  name: 'VkButton',
 })
 
 const _ref = ref<HTMLButtonElement>()
