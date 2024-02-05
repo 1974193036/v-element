@@ -13,6 +13,7 @@ import type { MenuOption } from './components/Dropdown/types'
 import { createMessage } from './components/Message/method'
 import type { ButtonInstance } from '@/components/Button/types'
 import type { TooltipInstance } from '@/components/Tooltip/types'
+import Select from '@/components/Select/Select.vue'
 
 const buttonRef = ref<ButtonInstance | null>(null)
 const tootipRef = ref<TooltipInstance | null>(null)
@@ -55,9 +56,40 @@ const inlineConsole = (...args: any) => {
 const inputValue = ref('123')
 
 const switchValue = ref(false)
+
+const selectedValue = ref('1')
+const selectOptions = [
+  { label: 'hello', value: '1' },
+  { label: 'xyz', value: '2' },
+  { label: 'testing', value: '3' },
+  { label: 'check', value: '4', disabled: true },
+]
+const customRender = (option: any) => {
+  return h('div', `${option.label} - ${option.value}`)
+}
 </script>
 
 <template>
+  <Select
+    v-model="selectedValue"
+    placeholder="基础选择器，请选择"
+    :options="selectOptions"
+    clearable
+    style="width: 500px"
+  />
+
+  <Select
+    v-model="selectedValue"
+    placeholder="可筛选，可自定义模板"
+    :options="selectOptions"
+    clearable
+    filterable
+    :render-label="customRender"
+    style="width: 500px"
+  />
+
+  <br><br>
+
   <!-- <Message message="hello" /> -->
 
   <Input v-model="inputValue" a="1" b="2" placeholder="请输入" clearable />
@@ -76,7 +108,7 @@ const switchValue = ref(false)
       append
     </template>
   </Input>
-  <Input v-model="inputValue" type="textarea"/>
+  <Input v-model="inputValue" type="textarea" />
 
   <Switch v-model="switchValue" activeText="是" inactiveText="否" /> {{ switchValue }}
 
