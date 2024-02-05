@@ -78,6 +78,7 @@ const generateFilterOptions = async (searchValue: string) => {
   else {
     filterOptions.value = props.options.filter(opt => opt.label.includes(searchValue))
   }
+  states.highlightIndex = -1
 }
 
 const onFilter = () => {
@@ -106,6 +107,7 @@ const controlDropdown = (show: boolean) => {
     // blur 时候将之前的值回灌到input中
     if (props.filterable)
       states.inputValue = states.selectedOption ? states.selectedOption.label : ''
+    states.highlightIndex = -1
   }
 
   isDropdownShow.value = show
