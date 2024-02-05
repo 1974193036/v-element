@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import type { Ref } from 'vue'
-import { isFunction } from 'lodash-es'
+import { debounce, isFunction } from 'lodash-es'
 import Tooltip from '../Tooltip/Tooltip.vue'
 import type { TooltipInstance } from '../Tooltip/types'
 import Input from '../Input/Input.vue'
@@ -10,7 +10,9 @@ import type { InputInstance } from '../Input/types'
 import RenderVnode from '../common/RenderVnode'
 import type { SelectEmits, SelectOption, SelectProps, SelectStates } from './types'
 
-const props = defineProps<SelectProps>()
+const props = withDefaults(defineProps<SelectProps>(), {
+  options: () => [],
+})
 const emits = defineEmits<SelectEmits>()
 const findOption = (value: string) => {
   const option = props.options.find(option => option.value === value)
@@ -19,6 +21,7 @@ const findOption = (value: string) => {
 defineOptions({
   name: 'VkSelect',
 })
+const timeout = computed(() => props.remote ? 300 : 0)
 const initialOption = findOption(props.modelValue)
 const tooltipRef = ref() as Ref<TooltipInstance>
 const inputRef = ref() as Ref<InputInstance>
@@ -26,6 +29,7 @@ const states = reactive<SelectStates>({
   inputValue: initialOption ? initialOption.label : '',
   selectedOption: initialOption,
   mouseHover: false,
+  loading: false,
 })
 const isDropdownShow = ref(false)
 const popperOptions: any = {
@@ -52,17 +56,36 @@ const filterOptions = ref(props.options)
 watch(() => props.options, (newOptions) => {
   filterOptions.value = newOptions
 })
-const generateFilterOptions = (searchValue: string) => {
+const generateFilterOptions = async (searchValue: string) => {
   if (!props.filterable) return
-  if (props.filterMethod && isFunction(props.filterMethod))
+  if (props.filterMethod && isFunction(props.filterMethod)) {
     filterOptions.value = props.filterMethod(searchValue)
-  else
+  }
+  else if (props.remote && props.remoteMethod && isFunction(props.remoteMethod)) {
+    states.loading = true
+    try {
+      filterOptions.value = await props.remoteMethod(searchValue)
+    }
+    catch (e) {
+      console.error(e)
+      filterOptions.value = []
+    }
+    finally {
+      states.loading = false
+    }
+  }
+  else {
     filterOptions.value = props.options.filter(opt => opt.label.includes(searchValue))
+  }
 }
+
 const onFilter = () => {
-  console.log(states.inputValue)
   generateFilterOptions(states.inputValue)
 }
+const debouceOnFilter = debounce(() => {
+  onFilter()
+}, timeout.value)
+
 const filteredPlaceholder = computed(() => {
   return (props.filterable && states.selectedOption && isDropdownShow.value) ? states.selectedOption.label : props.placeholder
 })
@@ -140,7 +163,7 @@ const itemSelect = (e: SelectOption) => {
         :disabled="disabled"
         :placeholder="filteredPlaceholder"
         :readonly="!filterable || !isDropdownShow"
-        @input="onFilter"
+        @input="debouceOnFilter"
       >
         <template #suffix>
           <Icon v-if="showClearIcon" icon="circle-xmark" class="vk-input__clear" @mousedown.prevent="NOOP" @click.stop="onClear" />
@@ -148,7 +171,13 @@ const itemSelect = (e: SelectOption) => {
         </template>
       </Input>
       <template #content>
-        <ul class="vk-select__menu">
+        <div v-if="states.loading" class="vk-select__loading">
+          <Icon icon="spinner" spin />
+        </div>
+        <div v-else-if="filterable && filterOptions.length === 0" class="vk-select__nodata">
+          暂无数据
+        </div>
+        <ul v-else class="vk-select__menu">
           <template v-for="(item, _index) in filterOptions" :key="_index">
             <li
               :id="`select-item-${item.value}`"

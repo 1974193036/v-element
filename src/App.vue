@@ -67,6 +67,23 @@ const selectOptions = [
 const customRender = (option: any) => {
   return h('div', `${option.label} - ${option.value}`)
 }
+
+const selectedRemoteValue = ref('')
+const remoteFilter = (query: string): Promise<{ label: string; value: string }[]> => {
+  return new Promise((resolve) => {
+    if (!query)
+      resolve([])
+
+    setTimeout(() => {
+      const arr = ['a', 'b', 'c', 'd', 'e']
+      const res = arr.filter(v => v.includes(query)).map(v => ({
+        label: v,
+        value: v,
+      }))
+      resolve(res)
+    }, 500)
+  })
+}
 </script>
 
 <template>
@@ -85,6 +102,15 @@ const customRender = (option: any) => {
     clearable
     filterable
     :render-label="customRender"
+    style="width: 500px"
+  />
+
+  <Select
+    v-model="selectedRemoteValue"
+    placeholder="远程搜索"
+    filterable
+    remote
+    :remote-method="remoteFilter"
     style="width: 500px"
   />
 
