@@ -27,6 +27,7 @@ export interface SelectStates {
   selectedOption: null | SelectOption
   mouseHover: boolean
   loading: boolean
+  highlightIndex: number
 }
 
 export type RenderLabelFunc = (option: SelectOption) => VNode

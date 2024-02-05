@@ -30,6 +30,7 @@ const states = reactive<SelectStates>({
   selectedOption: initialOption,
   mouseHover: false,
   loading: false,
+  highlightIndex: -1,
 })
 const isDropdownShow = ref(false)
 const popperOptions: any = {
@@ -139,6 +140,46 @@ const itemSelect = (e: SelectOption) => {
   controlDropdown(false)
   inputRef.value.ref.focus()
 }
+
+const handleKeydown = (e: KeyboardEvent) => {
+  switch (e.key) {
+    case 'Enter':
+      if (!isDropdownShow.value) {
+        controlDropdown(true)
+      }
+      else {
+        if (states.highlightIndex > -1 && filterOptions.value[states.highlightIndex])
+          itemSelect(filterOptions.value[states.highlightIndex])
+        else
+          controlDropdown(false)
+      }
+      break
+    case 'Escape':
+      if (isDropdownShow.value)
+        controlDropdown(false)
+      break
+    case 'ArrowUp':
+      e.preventDefault() // 阻止浏览器上下滚动行为
+      if (filterOptions.value.length > 0) {
+        if (states.highlightIndex === -1 || states.highlightIndex === 0)
+          states.highlightIndex = filterOptions.value.length - 1
+        else
+          states.highlightIndex--
+      }
+      break
+    case 'ArrowDown':
+      e.preventDefault() // 阻止浏览器上下滚动行为
+      if (filterOptions.value.length > 0) {
+        if (states.highlightIndex === -1 || states.highlightIndex === filterOptions.value.length - 1)
+          states.highlightIndex = 0
+        else
+          states.highlightIndex++
+      }
+      break
+    default:
+      break
+  }
+}
 </script>
 
 <template>
@@ -164,6 +205,7 @@ const itemSelect = (e: SelectOption) => {
         :placeholder="filteredPlaceholder"
         :readonly="!filterable || !isDropdownShow"
         @input="debouceOnFilter"
+        @keydown="handleKeydown"
       >
         <template #suffix>
           <Icon v-if="showClearIcon" icon="circle-xmark" class="vk-input__clear" @mousedown.prevent="NOOP" @click.stop="onClear" />
@@ -182,7 +224,11 @@ const itemSelect = (e: SelectOption) => {
             <li
               :id="`select-item-${item.value}`"
               class="vk-select__menu-item"
-              :class="{ 'is-disabled': item.disabled, 'is-selected': states.selectedOption?.value === item.value }"
+              :class="{
+                'is-disabled': item.disabled,
+                'is-selected': states.selectedOption?.value === item.value,
+                'is-highlighted': states.highlightIndex === _index,
+              }"
               @click.stop="itemSelect(item)"
             >
               <RenderVnode :vNode="renderLabel ? renderLabel(item) : item.label" />

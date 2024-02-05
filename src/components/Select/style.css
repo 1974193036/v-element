@@ -61,6 +61,9 @@
       color: var(--vk-select-item-selected-font-color);
       font-weight: 700;    
     }
+    &.is-highlighted {
+      background-color: var(--vk-select-item-hover-bg-color);
+    }
     &.is-disabled {
       color: var(--vk-select-item-disabled-font-color);
       cursor: not-allowed;
