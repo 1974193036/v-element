@@ -9,6 +9,8 @@ import Tooltip from '@/components/Tooltip'
 import Dropdown from '@/components/Dropdown'
 import Switch from '@/components/Switch'
 import Input from '@/components/Input'
+import Select from '@/components/Select'
+import Form, { FormItem } from '@/components/Form'
 
 import './styles/index.css'
 
@@ -24,6 +26,9 @@ const components = [
   Dropdown,
   Switch,
   Input,
+  Select,
+  Form,
+  FormItem,
 ]
 
 const install = (app: App) => {
@@ -45,6 +50,9 @@ export {
   Dropdown,
   Switch,
   Input,
+  Select,
+  Form,
+  FormItem,
 }
 
 export default {

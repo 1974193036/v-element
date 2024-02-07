@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, useAttrs, watch } from 'vue'
+import { computed, inject, nextTick, ref, useAttrs, watch } from 'vue'
 import type { Ref } from 'vue'
 import Icon from '../Icon/Icon.vue'
+import { formItemContextKey } from '../Form/types'
 import type { InputEmits, InputProps } from './types'
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -10,6 +11,12 @@ const props = withDefaults(defineProps<InputProps>(), {
 })
 
 const emits = defineEmits<InputEmits>()
+
+const formItemContext = inject(formItemContextKey, null)
+
+const runValidation = (trigger?: string) => {
+  formItemContext?.validate(trigger).catch((e: any) => console.log(e.errors))
+}
 
 defineOptions({
   name: 'VkInput',
@@ -40,18 +47,21 @@ const keepFocus = async () => {
 const handleInput = () => {
   emits('update:modelValue', innerValue.value)
   emits('input', innerValue.value)
+  runValidation('input')
 }
 const handleChange = () => {
   emits('change', innerValue.value)
+  runValidation('change')
 }
 const handleFocus = (event: FocusEvent) => {
   isFocus.value = true
   emits('focus', event)
 }
 const handleBlur = (event: FocusEvent) => {
-  console.log('blur triggered')
+  // console.log('blur triggered')
   isFocus.value = false
   emits('blur', event)
+  runValidation('blur')
 }
 const clear = () => {
   console.log('clear triggered')

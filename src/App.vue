@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, onMounted, ref } from 'vue'
+import { h, onMounted, reactive, ref } from 'vue'
 import Button from './components/Button/Button.vue'
 import Collapse from './components/Collapse/Collapse.vue'
 import CollapseItem from './components/Collapse/CollapseItem.vue'
@@ -14,6 +14,9 @@ import { createMessage } from './components/Message/method'
 import type { ButtonInstance } from '@/components/Button/types'
 import type { TooltipInstance } from '@/components/Tooltip/types'
 import Select from '@/components/Select/Select.vue'
+import Form from '@/components/Form/Form.vue'
+import FormItem from '@/components/Form/FormItem.vue'
+import type { FormRules } from '@/components/Form/types'
 
 const buttonRef = ref<ButtonInstance | null>(null)
 const tootipRef = ref<TooltipInstance | null>(null)
@@ -84,9 +87,50 @@ const remoteFilter = (query: string): Promise<{ label: string; value: string }[]
     }, 500)
   })
 }
+
+const formRef = ref()
+const model = reactive({
+  email: '123',
+  password: '',
+})
+const rules: FormRules = {
+  email: [{ type: 'email', required: true, trigger: 'blur' }],
+  password: [{ type: 'string', required: true, trigger: 'blur', min: 3, max: 5 }],
+}
+
+const submit = async () => {
+  try {
+    await formRef.value.validate()
+    console.log('passed!')
+  }
+  catch (e) {
+    console.log('the error', e)
+  }
+}
+const reset = () => {
+  formRef.value.resetFields()
+}
 </script>
 
 <template>
+  <Form ref="formRef" :model="model" :rules="rules">
+    <FormItem label="邮箱" prop="email">
+      <Input v-model="model.email" />
+    </FormItem>
+    <FormItem label="密码" prop="password">
+      <Input v-model="model.password" type="password" />
+    </FormItem>
+    <div :style="{ textAlign: 'center' }">
+      <Button type="primary" @click.prevent="submit">
+        Submit
+      </Button>
+      <Button @click.prevent="reset">
+        Reset
+      </Button>
+    </div>
+  </Form>
+  <pre>{{ model }}</pre>
+
   <Select
     v-model="selectedValue"
     placeholder="基础选择器，请选择"
