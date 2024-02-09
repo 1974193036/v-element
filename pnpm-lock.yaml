@@ -26,9 +26,6 @@ dependencies:
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
-  vue:
-    specifier: ^3.3.11
-    version: 3.3.11(typescript@5.3.2)
 
 devDependencies:
   '@mistjs/eslint-config-vue':
@@ -112,6 +109,9 @@ devDependencies:
   vitest:
     specifier: ^1.2.2
     version: 1.2.2(@types/node@18.19.3)(jsdom@24.0.0)
+  vue:
+    specifier: ^3.3.11
+    version: 3.3.11(typescript@5.3.2)
   vue-tsc:
     specifier: ^1.8.25
     version: 1.8.25(typescript@5.3.2)
